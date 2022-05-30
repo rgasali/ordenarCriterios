@@ -1,19 +1,39 @@
-const nombres: string[] = ["Carla", "Lucía", "Marta", "Cecilia"],
-  edades: number[] = [89, 24, 24, 7],
-  alturas: number[] = [164, 172, 181, 168];
-function cargarPersonas() {
-  // Esta función se ejecuta para recibir los datos del usuario
+let btnAgregarPersona = <HTMLButtonElement>(
+  document.getElementById("btnAgregarPersona")
+);
+let btnOrdenar = <HTMLButtonElement>document.getElementById("btnOrdenar");
+let divMostrarPersonas = <HTMLDivElement>(
+  document.getElementById("divMostrarPersonas")
+);
+const nombres: string[] = new Array(),
+  edades: number[] = new Array(),
+  alturas: number[] = new Array();
+
+function cargarPersonas(
+  nombres: string[],
+  edades: number[],
+  alturas: number[]
+) {
+  nombres.push(String(prompt("ingrese el nombre de la persona")));
+  edades.push(Number(prompt("ingrese la edad de la persona")));
+  alturas.push(Number(prompt("ingrese la altura en cms de la persona")));
 }
 function mostrarPorPantalla(
   names: string[],
   ages: number[],
   heights: number[]
 ) {
+  let mostrar = " ";
   for (let i = 0; i < names.length; i++) {
-    // Acá va el innerHTML
-    console.log(`${names[i]}: ${ages[i]} años y ${heights[i]} cm de altura`);
+    mostrar =
+      mostrar +
+      String(
+        `${names[i]}: ${ages[i]} años y ${heights[i]} cm de altura <br />`
+      );
   }
+  return mostrar;
 }
+
 function comparar(
   ages: number[],
   heights: number[],
@@ -52,8 +72,27 @@ function ordenarPorBurbuja(names: string[], ages: number[], heights: number[]) {
     }
   }
 }
-console.log("Antes de ordenarlos:");
+
+btnAgregarPersona.addEventListener("click", () => {
+  cargarPersonas(nombres, edades, alturas);
+  divMostrarPersonas.innerHTML = String(
+    mostrarPorPantalla(nombres, edades, alturas)
+  );
+});
+btnOrdenar.addEventListener("click", () => {
+  ordenarPorBurbuja(nombres, edades, alturas);
+  divMostrarPersonas.innerHTML = String(
+    `Despues de ordenarlos:<br />${mostrarPorPantalla(
+      nombres,
+      edades,
+      alturas
+    )}`
+  );
+  //mostrarPorPantalla(nombres, edades, alturas);
+});
+
+/*
 mostrarPorPantalla(nombres, edades, alturas);
 ordenarPorBurbuja(nombres, edades, alturas);
-console.log("Después de ordenarlos:");
 mostrarPorPantalla(nombres, edades, alturas);
+*/
